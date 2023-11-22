@@ -1,0 +1,39 @@
+local Workspace = game:GetService("Workspace")
+
+-- Your Cylinder template
+local cylinderTemplate = Instance.new("Part")
+cylinderTemplate.Size = Vector3.new(8.55, 0.42, 8.55)  -- Set the size as needed
+cylinderTemplate.Anchored = true  -- Set the part to be anchored
+cylinderTemplate.MeshId = "rbxassetid://20329976"  -- Cylinder mesh ID
+
+-- Object to follow (replace "ObjectToFollow" with the actual object reference)
+local objectToFollow = workspace.omfgerror
+
+while true do
+    wait(0.1)  -- Adjust the wait time for smooth following
+
+    local newCylinder = cylinderTemplate:Clone()
+    newCylinder.Parent = Workspace
+
+    while true do
+        wait()  -- Adjust the wait time for how often the position is updated
+
+        -- Check if the object to follow still exists
+        if objectToFollow and objectToFollow:IsA("BasePart") then
+            -- Update the cylinder's position to match the object's position
+            newCylinder.Position = objectToFollow.Position
+        else
+            -- If the object doesn't exist, break out of the inner loop
+            break
+        end
+    end
+
+    wait(0.15)  -- Adjust the wait time for destruction
+
+    -- Remove old cylinders by name or tag (replace "OldCylinder" with the actual name or tag)
+    for _, child in pairs(Workspace:GetChildren()) do
+        if child:IsA("Part") and child.Name == "OldCylinder" then
+            child:Destroy()
+        end
+    end
+end
